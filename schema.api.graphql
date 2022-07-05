@@ -1,17 +1,17 @@
 schema {
-  query: query
+  query: Query
   mutation: Mutation
 }
 
 type Query {
   getImageUploadUrl(extension: String, contentType: String): AWSURL!
-  getMyTimeline(limit: Int!, nextToken: String!): TweetsPage!
+  getMyTimeline(limit: Int!, nextToken: String): TweetsPage!
   getMyProfile: MyProfile!
   getProfile(screenName: String!): OtherProfile!
-  getTweets(userId: ID!, limit: Int!, nextToken: String!): TweetsPage!
-  getLikes(userId: ID!, limit: Int!, nextToken: String!): TweetsPage!
-  getFollowers(userId: ID!, limit: Int!, nextToken: String!): ProfilesPage!
-  getFollowing(userId: ID!, limit: Int!, nextToken: String!): ProfilesPage!
+  getTweets(userId: ID!, limit: Int!, nextToken: String): TweetsPage!
+  getLikes(userId: ID!, limit: Int!, nextToken: String): TweetsPage!
+  getFollowers(userId: ID!, limit: Int!, nextToken: String): ProfilesPage!
+  getFollowing(userId: ID!, limit: Int!, nextToken: String): ProfilesPage!
 }
 
 type Mutation {
@@ -51,7 +51,7 @@ interface IProfile {
   followersCount: Int!
   followingCount: Int!
   tweetsCount: Int!
-  likesCount: Int!
+  likesCounts: Int!
 }
 
 type MyProfile implements IProfile {
@@ -69,7 +69,7 @@ type MyProfile implements IProfile {
   followersCount: Int!
   followingCount: Int!
   tweetsCount: Int!
-  likesCount: Int!
+  likesCounts: Int!
 }
 
 type OtherProfile implements IProfile {
@@ -87,15 +87,15 @@ type OtherProfile implements IProfile {
   followersCount: Int!
   followingCount: Int!
   tweetsCount: Int!
-  likesCount: Int!
+  likesCounts: Int!
   following: Boolean!
   followedBy: Boolean!
 }
 
-type ITweet {
+interface ITweet {
   id: ID!
   profile: IProfile!
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
 }
 
 type Tweet implements ITweet {
@@ -105,7 +105,7 @@ type Tweet implements ITweet {
   text: String!
   replies: Int!
   likes: Int!
-  retweet: Int!
+  retweets: Int!
   liked: Boolean!
   retweeted: Boolean!
 }
@@ -119,7 +119,7 @@ type Reply implements ITweet {
   text: String!
   replies: Int!
   likes: Int!
-  retweet: Int!
+  retweets: Int!
   liked: Boolean!
   retweeted: Boolean!
 }
@@ -127,16 +127,16 @@ type Reply implements ITweet {
 type Retweet implements ITweet {
   id: ID!
   profile: IProfile!
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
   retweetOf: ITweet!
 }
 
 type TweetsPage {
-  tweets: [!Tweet!]
+  tweets: [ITweet!]
   nextToken: String
 }
 
 type ProfilesPage {
   profiles: [IProfile!]
-  nextToken: String!
+  nextToken: String
 }

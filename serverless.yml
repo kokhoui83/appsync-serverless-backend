@@ -2,11 +2,12 @@ service: appsync-serverless-backend
 frameworkVersion: '3'
 
 plugins:
- - serverless-appsync-plugin
+  - serverless-better-credentials
+  - serverless-appsync-plugin
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   region: ap-southeast-1
 
 package:
